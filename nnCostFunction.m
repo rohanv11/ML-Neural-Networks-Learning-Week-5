@@ -40,23 +40,23 @@ Theta2_grad = zeros(size(Theta2));
 %         computed in ex4.m
 % X is 5000 by 400 cols
 
-layer_1 = [ones(m, 1) X]
+layer_1 = [ones(m, 1) X];
 % theta1 = 25 by 401
 % layer_1 = 5000 by 401
 
-layer_2 = layer_1 * Theta1'
-layer_2 = sigmoid(layer_2)
+layer_2 = layer_1 * Theta1';
+layer_2 = sigmoid(layer_2);
 % layer_2 = 5000 by 25
 
 disp("Layer 2 Computed")
 %pause;
 
-layer_2 = [ones(m,1) layer_2]
+layer_2 = [ones(m,1) layer_2];
 % layer_2 = 5000 by 26
 
 % Theta2 = 10 by 26
-layer_3 = layer_2 * Theta2'
-layer_3 = sigmoid(layer_3)
+layer_3 = layer_2 * Theta2';
+layer_3 = sigmoid(layer_3);
 % layer_3 = 5000 by 10
 % layer_3 = h(x) = hypothesis
 
@@ -64,7 +64,7 @@ disp("All Layers Computed")
 %pause;
 
 % getY_inVector gives a vector of 5000 by 10
-y_vec = getY_inVector(y, num_labels) 
+y_vec = getY_inVector(y, num_labels) ;
 
 disp("getY_inVector completed")
 %pause;
@@ -73,30 +73,30 @@ disp("getY_inVector completed")
 % the inner summation that goes from k = 1 to k = num_labels
 % inner_K_value = 5000 by 10
 
-inner_K_value = -(y_vec .* log(layer_3)) - ((1 - y_vec) .* log(1 - layer_3))
+inner_K_value = -(y_vec .* log(layer_3)) - ((1 - y_vec) .* log(1 - layer_3));
 
 disp("Inner K summation value computed")
 %pause;
 
 % this sum below is the second summation in the cost function formula
-J = (1 / m) * sum(inner_K_value(:))
+J = (1 / m) * sum(inner_K_value(:));
 
 disp("Cost J computed")
 %pause;
 
 % Regularization for Cost Function
-cost = 0
-temp_1 = Theta1(:, 2:end)
-temp_1 = temp_1(:) .^ 2
-cost = cost + sum(temp_1)
+cost = 0;
+temp_1 = Theta1(:, 2:end);
+temp_1 = temp_1(:) .^ 2;
+cost = cost + sum(temp_1);
 
-temp_2 = Theta2(:, 2:end)
-temp_2 = temp_2(:) .^ 2
-cost = cost + sum(temp_2)
+temp_2 = Theta2(:, 2:end);
+temp_2 = temp_2(:) .^ 2;
+cost = cost + sum(temp_2);
 
-cost = (lambda / (2 * m)) * cost
+cost = (lambda / (2 * m)) * cost;
 
-J = J + cost
+J = J + cost;
 
 
 % Part 2: Implement the backpropagation algorithm to compute the gradients
@@ -122,9 +122,9 @@ Triangle_delta_2 = zeros(size(Theta2));
 
 
 for t=1: m
-    a_1 = X(t, :)
+    a_1 = X(t, :);
     % a_1 = 1 by 400
-    a_1 = [1 a_1]
+    a_1 = [1 a_1];
     % a_1 = 1 by 401
 
     % size(a_1, 2) = 401
@@ -132,40 +132,40 @@ for t=1: m
     % Not Useful W_1 = randInitializeWeights(size(a_1, 2)-1, 25) %since bias already added above, the function randInitializeWeights also considers the bias term
 
     % Theta1 = 25 by 401
-    z_2 = a_1 * Theta1'
+    z_2 = a_1 * Theta1';
     % z_2 = 1 by 25
-    a_2 = sigmoid(z_2)
+    a_2 = sigmoid(z_2);
     % a_2 = 1 by 25
-    a_2 = [1 a_2]
+    a_2 = [1 a_2];
     % a_2 = 1 by 26
 
     % Not Useful W_2 = randInitializeWeights(size(a_2, 2)-1, 10)
     % thus W = 10 by 26
 
     % Theta2 = 10 by 26
-    z_3 = a_2 * Theta2'
+    z_3 = a_2 * Theta2';
     % z_3 = 1 by 10
-    a_3 = sigmoid(z_3)
+    a_3 = sigmoid(z_3);
     % a_3 = 1 by 10
 
-    y_vec = zeros(1, num_labels) 
-    y_vec(1, y(t, 1)) = 1
+    y_vec = zeros(1, num_labels);
+    y_vec(1, y(t, 1)) = 1;
     % y_vec = 1 by 10
 
 
-    delta_3 = a_3 - y_vec
+    delta_3 = a_3 - y_vec;
     % delta_3 = 1 by 10
 
 
     % Theta2 = 10 by 26
     % z_2 = 1 by 25
     % adding a0=1 in z_2
-    delta_2 =  (delta_3 * Theta2) .* sigmoidGradient([1 z_2])
+    delta_2 =  (delta_3 * Theta2) .* sigmoidGradient([1 z_2]);
     % delta_2 = 1 by 26
 
 
     % remove delta(0)
-    delta_2 = delta_2(:, 2:end)
+    delta_2 = delta_2(:, 2:end);
     % delta_2 = 1 by 25
 
 %###issue in regularization
@@ -192,7 +192,7 @@ for t=1: m
     % delta_3 = 1 by 10
     % a_2 = 1 by 26
     % Triangle_delta_2 = 10 by 26  
-    Triangle_delta_2 = Triangle_delta_2 .+ (delta_3' * a_2) %%.+ (lambda * regularization_term_2)
+    Triangle_delta_2 = Triangle_delta_2 .+ (delta_3' * a_2); %%.+ (lambda * regularization_term_2);
     % delta_3' * a_2 = 10 by 26
     % including a0 in a_2 
 
@@ -207,7 +207,7 @@ for t=1: m
     % delta_2 = 1 by 25 .. after removing delta0 from delta_2
     % a_1 = 1 by 401
     % Triangle_delta_1 = 25 by 401
-    Triangle_delta_1 = Triangle_delta_1 .+ (delta_2' * a_1) %%.+ (lambda * regularization_term_1)
+    Triangle_delta_1 = Triangle_delta_1 .+ (delta_2' * a_1); %%.+ (lambda * regularization_term_1);
     % delta_2' * a_1 = 25 by 401
     % including a0 in a_1 
 
@@ -234,21 +234,21 @@ end
 % according to me these are basically the finally capital D values in the course week 5
 
 % regularization
-reg_term_1 = lambda * Theta1(:, 2:end)
-reg_term_1 = [zeros(size(reg_term_1, 1), 1) reg_term_1]
+reg_term_1 = lambda * Theta1(:, 2:end);
+reg_term_1 = [zeros(size(reg_term_1, 1), 1) reg_term_1];
 
-reg_term_2 = lambda * Theta2(:, 2:end)
-reg_term_2 = [zeros(size(reg_term_2, 1), 1) reg_term_2]
+reg_term_2 = lambda * Theta2(:, 2:end);
+reg_term_2 = [zeros(size(reg_term_2, 1), 1) reg_term_2];
 
-Triangle_delta_1 = Triangle_delta_1 + reg_term_1
+Triangle_delta_1 = Triangle_delta_1 + reg_term_1;
 
-Triangle_delta_2 = Triangle_delta_2 + reg_term_2
+Triangle_delta_2 = Triangle_delta_2 + reg_term_2;
 
 
 
-Theta1_grad = (1/m) * Triangle_delta_1
+Theta1_grad = (1/m) * Triangle_delta_1;
 
-Theta2_grad = (1/m) * Triangle_delta_2
+Theta2_grad = (1/m) * Triangle_delta_2;
 
 
 
