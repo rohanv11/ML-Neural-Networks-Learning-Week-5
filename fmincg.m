@@ -82,6 +82,8 @@ z1 = red/(1-d1);                                  % initial step is red/(|s|+1)
 
 while i < abs(length)                                      % while not finished
   i = i + (length>0);                                      % count iterations?!
+  disp("Iteration")
+  disp(i)
 
   X0 = X; f0 = f1; df0 = df1;                   % make a copy of current values
   X = X + z1*s;                                             % begin line search
